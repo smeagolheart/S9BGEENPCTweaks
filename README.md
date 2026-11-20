@@ -18,7 +18,9 @@ A WeiDU mod for **Baldur's Gate: Enhanced Edition** and **EET** (with partial BG
 1. Extract the `S9BGEENPCTweaks` folder and `setup-S9BGEENPCTweaks.exe` (any recent WeiDU, renamed) into your game folder.
 2. Run `setup-S9BGEENPCTweaks.exe` and pick the components you want.
 
-On EET, install this after EET itself. "Convenient NPCs" is not compatible with the NPC-moving components of SCS, BG1 NPC Project or EE Content Tweaks.
+On EET, install this after EET itself.
+
+Current game versions (BG:EE / BG2:EE 2.5 and later) already include the Priest of Tempus kit, and Branwen is already a Priest of Tempus. On those versions component 20 refuses to install ("This kit is already in the game") and component 41 changes nothing; both are kept for older game versions. "Convenient NPCs" is not compatible with the NPC-moving components of SCS, BG1 NPC Project or EE Content Tweaks.
 
 ## Credits
 
