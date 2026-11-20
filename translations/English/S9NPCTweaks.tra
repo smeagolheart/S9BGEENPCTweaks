@@ -5,7 +5,6 @@
 @10=~NPC Portraits~
 @20=~Add Priest of Tempus kit~
 @30=~Convenient NPCs~
-@41=~Make Branwen a Priest of Tempus~
 @50=~Adjust NPC Classes~
 @60=~Dual Class Friendly Stats for Branwen, Dynaheir, Safana and Xzar~
 @400=~Make Dynaheir a Sorcerer~
@@ -24,7 +23,6 @@
 @598 = ~NPCs have been already moved by another mod.~
 @600 = ~This component requires either BG:EE or EET to be installed.~
 @601 = ~This component requires either BG2:EE or EET to be installed.~
-@605 = ~This component requires Priest of Tempus kit to be installed and is a component of 'Adjust NPC Classes".~
 @606 = ~This component is incompatible with EE content tweaks components 2 and 5.~
 
 // Install-time warnings

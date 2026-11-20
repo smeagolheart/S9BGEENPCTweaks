@@ -510,19 +510,6 @@ END
 	LAF A7PassiveRasaad END
 
 // Adjust NPC Classes
-BEGIN @41
-REQUIRE_PREDICATE GAME_IS ~bgee eet~ @5
-REQUIRE_PREDICATE FILE_EXISTS_IN_GAME OHTEMPUS.2DA @605
-//REQUIRE_PREDICATE FILE_EXISTS OHTEMPUS.2DA @605
-//GROUP @50
-DESIGNATED 41
-	
-	// Make Branwen a Priest of Tempus	
-	
-	COPY_EXISTING ~%s9cre_BRANWE%.cre~ ~override~
-		LPF s9_set_kit STR_VAR kit_name = ~OHTEMPUS~ END
-	
-	
 // Make Dynaheir a Sorcerer
 BEGIN @400
 REQUIRE_PREDICATE GAME_IS ~bgee eet~ @600  // This component requires either BG:EE or EET to be installed
