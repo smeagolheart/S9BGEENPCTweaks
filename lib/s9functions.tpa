@@ -7,10 +7,10 @@ DEFINE_ACTION_FUNCTION A7PassiveNeera
 BEGIN
   // BG1 portion
   ACTION_IF (GAME_IS ~bgee eet~) BEGIN
-    ACTION_IF (FILE_EXISTS_IN_GAME ~NEERA.BCS~) BEGIN
-      COPY_EXISTING ~NEERA.BCS~ ~override~
+    ACTION_IF (FILE_EXISTS_IN_GAME ~%NEERA_BCS%.BCS~) BEGIN
+      COPY_EXISTING ~%NEERA_BCS%.BCS~ ~override~
         DECOMPILE_AND_PATCH BEGIN
-          REPLACE_TEXTUALLY CASE_INSENSITIVE ~^[\t ]*Global("NEERA_MEETING",.+)~ ~False()~
+          LPF s9_replace STR_VAR find = ~^[\t ]*Global("NEERA_MEETING",.+)~ repl = ~False()~ END
         END BUT_ONLY
     END
   END
@@ -20,7 +20,7 @@ BEGIN
     ACTION_IF (FILE_EXISTS_IN_GAME ~OHNCUT1A.BCS~) BEGIN
       COPY_EXISTING ~OHNCUT1A.BCS~ ~override~
         DECOMPILE_AND_PATCH BEGIN
-          REPLACE_TEXTUALLY CASE_INSENSITIVE ~CreateCreature("NEERA.+)~ ~~
+          LPF s9_replace STR_VAR find = ~CreateCreature("NEERA.+)~ repl = ~~ END
         END BUT_ONLY
       EXTEND_BOTTOM ~ohncut1a.bcs~ ~%MOD_FOLDER%/scripts/ohncut1a_neera.baf~
       COMPILE ~%MOD_FOLDER%/scripts/ohnmcut1.baf~
@@ -35,13 +35,13 @@ BEGIN
     ACTION_IF (FILE_EXISTS_IN_GAME ~RASAAD.BCS~) BEGIN
       COPY_EXISTING ~ar2000.bcs~ ~override~
         DECOMPILE_AND_PATCH BEGIN
-          REPLACE_TEXTUALLY CASE_INSENSITIVE ~CreateCreature("RASAAD8",.*)~ ~CreateCreature("RASAAD8",[1832.1410],SSE)~
-          REPLACE_TEXTUALLY CASE_INSENSITIVE ~CreateCreature("OHRTREYA",.*)~ ~~
-          REPLACE_TEXTUALLY CASE_INSENSITIVE ~CreateCreature("OHRSSM01",.*)~ ~~
+          LPF s9_replace STR_VAR find = ~CreateCreature("RASAAD8",.*)~ repl = ~CreateCreature("RASAAD8",[1832.1410],SSE)~ END
+          LPF s9_replace STR_VAR find = ~CreateCreature("OHRTREYA",.*)~ repl = ~~ END
+          LPF s9_replace STR_VAR find = ~CreateCreature("OHRSSM01",.*)~ repl = ~~ END
         END BUT_ONLY
       COPY_EXISTING ~ohrssm01.bcs~ ~override~
         DECOMPILE_AND_PATCH BEGIN
-          REPLACE_TEXTUALLY CASE_INSENSITIVE ~Range(\[PC\],.*)~ ~Detect([PC])~
+          LPF s9_replace STR_VAR find = ~Range(\[PC\],.*)~ repl = ~Detect([PC])~ END
         END BUT_ONLY
       COMPILE ~%MOD_FOLDER%/dialogue/rasaad_bg2.d~
     END
@@ -55,7 +55,7 @@ BEGIN
       //PRINT ~DEBUG: Hexxat!~
       COPY_EXISTING ~OHHFAK.BCS~ ~override~
         DECOMPILE_AND_PATCH BEGIN
-          REPLACE_TEXTUALLY CASE_INSENSITIVE ~Num.*TimesTalkedTo(0)~ ~False()~
+          LPF s9_replace STR_VAR find = ~Num.*TimesTalkedTo(0)~ repl = ~False()~ END
         END BUT_ONLY
     END
   END
@@ -66,7 +66,7 @@ END
 DEFINE_ACTION_FUNCTION S9MoveBaeloth
 BEGIN
   ACTION_IF (GAME_IS ~bgee eet~) BEGIN
-    COMPILE ~%MOD_FOLDER%/scripts/cutba01.baf~
+    COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/scripts/cutba01.baf~
   END
 END
 
@@ -75,7 +75,7 @@ DEFINE_ACTION_FUNCTION s9PatchCrePortrait
 	npc = ""
 	file = ""
 BEGIN
-	ACTION_IF (FILE_EXISTS_IN_GAME ~%npc%.cre~) THEN BEGIN
+	ACTION_IF (FILE_EXISTS_IN_GAME ~%npc%.cre~ OR FILE_EXISTS_IN_GAME ~%npc%_.cre~) THEN BEGIN
 		COPY ~%MOD_FOLDER%/NPC_Portraits/%file%.bmp~ ~override/%file%L.bmp~
 		COPY ~%MOD_FOLDER%/NPC_Portraits/%file%.bmp~ ~override/%file%M.bmp~
 		COPY ~%MOD_FOLDER%/NPC_Portraits/%file%.bmp~ ~override/%file%S.bmp~
@@ -88,10 +88,59 @@ DEFINE_ACTION_FUNCTION s9PatchCrePortraitv2
 	filea = ""
 	fileb = ""
 BEGIN
-	ACTION_IF (FILE_EXISTS_IN_GAME ~%npc%.cre~) THEN BEGIN
+	ACTION_IF (FILE_EXISTS_IN_GAME ~%npc%.cre~ OR FILE_EXISTS_IN_GAME ~%npc%_.cre~) THEN BEGIN
 		COPY ~%MOD_FOLDER%/NPC_Portraits/%filea%.bmp~ ~override/%fileb%L.bmp~
 		COPY ~%MOD_FOLDER%/NPC_Portraits/%filea%.bmp~ ~override/%fileb%M.bmp~
 		COPY ~%MOD_FOLDER%/NPC_Portraits/%filea%.bmp~ ~override/%fileb%S.bmp~
 	END
 END
 
+
+// Returns the EET-renamed BG1 resource (NAME_) if it exists, otherwise NAME.
+DEFINE_ACTION_FUNCTION s9_bg1_res
+  STR_VAR
+	name = ""
+	ext = ""
+  RET res
+BEGIN
+	OUTER_SPRINT res ~%name%~
+	ACTION_IF (GAME_IS ~eet~) BEGIN
+		ACTION_IF (FILE_EXISTS_IN_GAME ~%name%_.%ext%~) BEGIN
+			OUTER_SPRINT res ~%name%_~
+		END
+	END
+END
+
+// Use inside DECOMPILE_AND_PATCH. Replaces text, or warns during install if the
+// text isn't there (e.g. a game patch changed the script), instead of silently doing nothing.
+DEFINE_PATCH_FUNCTION s9_replace
+  STR_VAR
+	find = ""
+	repl = ""
+BEGIN
+	PATCH_IF (INDEX_BUFFER (CASE_INSENSITIVE ~%find%~) < 0) BEGIN
+		PATCH_WARN @700
+	END ELSE BEGIN
+		REPLACE_TEXTUALLY CASE_INSENSITIVE ~%find%~ ~%repl%~
+	END
+END
+
+// Sets a creature's kit. Vanilla kit IDs are fixed by the engine; a mod-added kit
+// (kit_name, e.g. OHTEMPUS) is looked up in KIT.IDS because its number depends on install order.
+// The CRE stores the kit dword with its two halves swapped.
+DEFINE_PATCH_FUNCTION s9_set_kit
+  INT_VAR
+	kit_id = "-1"
+  STR_VAR
+	kit_name = ""
+BEGIN
+	PATCH_IF (STRING_LENGTH ~%kit_name%~ > 0) BEGIN
+		SET kit_id = IDS_OF_SYMBOL (~kit~ ~%kit_name%~)
+	END
+	PATCH_IF (kit_id < 0) BEGIN
+		PATCH_WARN @701
+	END ELSE BEGIN
+		WRITE_SHORT 0x244 ((kit_id BLSR 16) BAND 0xFFFF)
+		WRITE_SHORT 0x246 (kit_id BAND 0xFFFF)
+	END
+END

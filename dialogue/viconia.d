@@ -1,5 +1,5 @@
 // Ajuste la position du mercenaire du Poing Enflammé
-ALTER_TRANS ~viconi~
+ALTER_TRANS ~%s9dlg_VICONI%~
 BEGIN 1 END
 BEGIN 0 END
 BEGIN

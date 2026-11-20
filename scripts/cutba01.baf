@@ -10,7 +10,7 @@ THEN
     CreateVisualEffect("spholy",[2441.2784])
     SmallWait(15)
     CreateVisualEffect("spsdimpa",[2441.2784])
-    CreateCreature("BAELOTH",[2441.2784],S)
+    CreateCreature("%s9cre_BAELOTH%",[2441.2784],S)
     ActionOverride("BAELOTH",MakeGlobal())
     EndCutSceneMode()
 END

@@ -1,7 +1,7 @@
 //Dialogue: Dorn revised entrance
 //Author : Smeagolheart
 
-APPEND DORN
+APPEND ~%s9dlg_DORN%~
 	IF WEIGHT #-1 ~NumTimesTalkedTo(0)~ THEN BEGIN S9Wel
 	SAY @1050
 		IF ~~ THEN GOTO S9Wel3

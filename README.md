@@ -37,5 +37,9 @@ On EET, install this after EET itself. "Convenient NPCs" is not compatible with 
 - New Dorn introduction now always takes priority
 - Paths now work with WeiDU on macOS and Linux
 - Class components have fixed component numbers
+- EET: BG1 creatures, dialogues and scripts that EET renames (e.g. DORN_, VICONI_) are now found automatically
+- Script edits now give an install warning if a game patch changed the text they look for, instead of silently doing nothing
+- Kits are set through one helper; the Priest of Tempus kit is looked up by name
+- Priest of Tempus kit takes the Cleric biography and summary from the installed game instead of fixed string numbers
 
 **1.1** – earlier release

@@ -12,6 +12,16 @@ ALWAYS
 		// PRINT @2
 		INCLUDE ~%MOD_FOLDER%/lib/eet_cpmvars.tpa~
 	END
+
+	// BG1 resource names. EET adds "_" to BG1 files whose names clash with BG2 (DORN_, VICONI_ ...),
+	// so use %s9cre_NAME% / %s9dlg_NAME% instead of hardcoded BG1 names.
+	ACTION_FOR_EACH res IN ALORA BAELOTH BRANWE CORAN DORN DYNAHE ELDOTH FALDOR GARRIC KAGAIN KHALID KIVAN QUAYLE SAFANA SHARTE SKIE TIAX VICONI XZAR BEGIN
+		LAF s9_bg1_res STR_VAR name = EVAL ~%res%~ ext = ~cre~ RET cre = res END
+		LAF s9_bg1_res STR_VAR name = EVAL ~%res%~ ext = ~dlg~ RET dlg = res END
+		OUTER_SPRINT EVAL ~s9cre_%res%~ ~%cre%~
+		OUTER_SPRINT EVAL ~s9dlg_%res%~ ~%dlg%~
+	END
+	LAF s9_bg1_res STR_VAR name = ~SHARTEL2~ ext = ~bcs~ RET s9bcs_SHARTEL2 = res END
 END
 
 LANGUAGE ~English~
@@ -47,7 +57,7 @@ BEGIN @10 DESIGNATED 10
 					~XAN~
 					~XZAR~
 					BEGIN
-						ACTION_IF (FILE_EXISTS_IN_GAME ~%npc%.cre~) THEN BEGIN
+						ACTION_IF (FILE_EXISTS_IN_GAME ~%npc%.cre~ OR FILE_EXISTS_IN_GAME ~%npc%_.cre~) THEN BEGIN
 							COPY ~%MOD_FOLDER%/NPC_Portraits/%npc%.bmp~ ~override/%npc%L.bmp~
 							COPY ~%MOD_FOLDER%/NPC_Portraits/%npc%.bmp~ ~override/%npc%M.bmp~
 							COPY ~%MOD_FOLDER%/NPC_Portraits/%npc%.bmp~ ~override/%npc%S.bmp~
@@ -108,6 +118,7 @@ BEGIN @10 DESIGNATED 10
 		// Standardize Viconia Colors to SOD colorscheme
 		ACTION_FOR_EACH ~crefile~ IN
 			   ~VICONI~
+			   ~VICONI_~	// BG1 Viconia on EET
 			   ~VICONI4~
 			   ~VICONI6~
 			   ~VICONI6_~
@@ -138,17 +149,6 @@ DESIGNATED 20
 	//Code from EET Tweaks mod by K4thos
 
 	LOAD_TRA ~%MOD_FOLDER%/translations/%LANGUAGE%/tempus.tra~
-
-	ACTION_IF GAME_IS ~bgee~ BEGIN
-		OUTER_SET kit_biography = 15884
-		OUTER_SET kit_briefdesc = 31255
-	END ELSE ACTION_IF GAME_IS ~bg2ee~ BEGIN
-		OUTER_SET kit_biography = ~-1~
-		OUTER_SET kit_briefdesc = 102495
-	END ELSE BEGIN //eet
-		OUTER_SET kit_biography = 15884
-		OUTER_SET kit_briefdesc = 102495
-	END
 
 	ADD_KIT ~OHTEMPUS~
 		// CLASS WEAPON PROFICIENCIES_____
@@ -234,8 +234,8 @@ DESIGNATED 20
 		LAF ~fl#add_kit_ee~
 			INT_VAR
 			//CLASTEXT.2DA
-				biography     = ~kit_biography~
-				briefdesc     = ~kit_briefdesc~
+				biography     = ~-2~	// -2 = copy the Cleric's text from this game's CLASTEXT.2DA
+				briefdesc     = ~-2~
 				fallen        = ~0~
 				fallen_notice = ~-1~
 			STR_VAR
@@ -326,7 +326,7 @@ ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN
       FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
         SET cre_offset = non_joined_npcs_off + i * 0x160
         READ_ASCII 0xc + cre_offset ~CREName~
-        PATCH_IF (~%CREName%~ STR_EQ ~%ALORA_BCS%~) BEGIN
+        PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_ALORA%~) BEGIN
 			WRITE_ASCIIE cre_offset + 0x18 ~%Gullykin%~ #8
 			WRITE_SHORT cre_offset + 0x20 553
 			WRITE_SHORT cre_offset + 0x22 506
@@ -339,7 +339,7 @@ ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN
 
     COPY_EXISTING ~%HallofWonders_BCS%.bcs~ ~override~
       DECOMPILE_AND_PATCH BEGIN
-    	REPLACE_TEXTUALLY ~!InParty("alora")~ ~!InParty("alora") Global("X#AloraDontBeDifficult","GLOBAL",1)~
+		LPF s9_replace STR_VAR find = ~!InParty("alora")~ repl = ~!InParty("alora") Global("X#AloraDontBeDifficult","GLOBAL",1)~ END
       END
       BUT_ONLY_IF_IT_CHANGES	  
 
@@ -350,7 +350,7 @@ ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN
 	FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
 		SET cre_offset = non_joined_npcs_off + i * 0x160
 		READ_ASCII 0xc + cre_offset ~CREName~
-		PATCH_IF (~%CREName%~ STR_EQ ~%CORAN_BCS%~) BEGIN
+		PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_CORAN%~) BEGIN
 			WRITE_ASCIIE cre_offset + 0x18 ~%CloakwoodLodge%~ #8
 			WRITE_SHORT cre_offset + 0x20 1857
 			WRITE_SHORT cre_offset + 0x22 949
@@ -359,29 +359,29 @@ ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN
 		BUT_ONLY_IF_IT_CHANGES
 	//extend Coran's quest timer
 	EXTEND_BOTTOM ~%CloakwoodNest%.bcs~ ~%MOD_FOLDER%/baf/corantimer.baf~
-	COMPILE ~%MOD_FOLDER%/dialogue/coran.d~  
+	COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/coran.d~  
 
 /* Dorn BGEE: Nashkel Mines next to the Cabin */
-	EXTEND_BOTTOM ~%NashkelMines%.bcs~ ~%MOD_FOLDER%/baf/AREA5400.baf~
-	COMPILE ~%MOD_FOLDER%/dialogue/dorn.d~
+	EXTEND_BOTTOM ~%NashkelMines%.bcs~ ~%MOD_FOLDER%/baf/AREA5400.baf~ EVALUATE_BUFFER
+	COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/dorn.d~
 
 	COPY_EXISTING ~%FriendlyArmInn_L1%.bcs~ ~override~
-	DECOMPILE_BCS_TO_BAF
-	REPLACE_TEXTUALLY ~Global("DORNExists","GLOBAL",0)~ ~False()~
-	COMPILE_BAF_TO_BCS	
+	DECOMPILE_AND_PATCH BEGIN
+		LPF s9_replace STR_VAR find = ~Global("DORNExists","GLOBAL",0)~ repl = ~False()~ END
+	END BUT_ONLY
 
 /* Dorn SOD: Three Old Kegs and Flaming Fist Camp */	
 	ACTION_IF FILE_EXISTS_IN_GAME ~DORN7.cre~ THEN BEGIN
 		EXTEND_BOTTOM ~BD0106.bcs~ ~%MOD_FOLDER%/lib/soddorn.baf~
 		COPY_EXISTING ~BD2000.bcs~ ~override~
-		DECOMPILE_BCS_TO_BAF
-		REPLACE_TEXTUALLY ~Global("bd_dorn_spawn","bd2000",0)~ ~False()~
-		COMPILE_BAF_TO_BCS
+		DECOMPILE_AND_PATCH BEGIN
+			LPF s9_replace STR_VAR find = ~Global("bd_dorn_spawn","bd2000",0)~ repl = ~False()~ END
+		END BUT_ONLY
 		
 		COPY_EXISTING ~BD3000.bcs~ ~override~
-		DECOMPILE_BCS_TO_BAF
-		REPLACE_TEXTUALLY ~GlobalGT("bd_dorn_join","global",0)~ ~True()~
-		COMPILE_BAF_TO_BCS	
+		DECOMPILE_AND_PATCH BEGIN
+			LPF s9_replace STR_VAR find = ~GlobalGT("bd_dorn_join","global",0)~ repl = ~True()~ END
+		END BUT_ONLY
 	END	
 	  
 /* Eldoth to Beregost Red Sheaf near Bartender */
@@ -391,14 +391,14 @@ ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN
 	FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
 		SET cre_offset = non_joined_npcs_off + i * 0x160
 		READ_ASCII 0xc + cre_offset ~CREName~
-		PATCH_IF (~%CREName%~ STR_EQ ~%ELDOTH_BCS%~) BEGIN
+		PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_ELDOTH%~) BEGIN
 			WRITE_ASCIIE cre_offset + 0x18 ~%Beregost_RedSheaf_L1%~ #8
 			WRITE_SHORT cre_offset + 0x20 772
 			WRITE_SHORT cre_offset + 0x22 300
 			END
 		END
 		BUT_ONLY_IF_IT_CHANGES
-	COMPILE ~%MOD_FOLDER%/dialogue/eldoth.d~
+	COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/eldoth.d~
 	
 /* Quayle to start at the Nashkel Carnival near Great Gazib's show. */
 	COPY_EXISTING ~baldur.gam~ ~override~
@@ -407,7 +407,7 @@ ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN
 	FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
 		SET cre_offset = non_joined_npcs_off + i * 0x160
 		READ_ASCII 0xc + cre_offset ~CREName~
-		PATCH_IF (~%CREName%~ STR_EQ ~%QUAYLE_BCS%~) BEGIN
+		PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_QUAYLE%~) BEGIN
 			WRITE_ASCIIE cre_offset + 0x18 ~%NashkelCarnival%~ #8
 			WRITE_SHORT cre_offset + 0x20 1133
 			WRITE_SHORT cre_offset + 0x22 2940
@@ -422,14 +422,14 @@ ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN
 	FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
 		SET cre_offset = non_joined_npcs_off + i * 0x160
 		READ_ASCII 0xc + cre_offset ~CREName~
-		PATCH_IF (~%CREName%~ STR_EQ ~%SAFANA_BCS%~) BEGIN
+		PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_SAFANA%~) BEGIN
 			WRITE_ASCIIE cre_offset + 0x18 ~%Beregost_JovialJuggler_L1%~ #8
 			WRITE_SHORT cre_offset + 0x20 135
 			WRITE_SHORT cre_offset + 0x22 966
 			END
 		END
 	BUT_ONLY_IF_IT_CHANGES	
-	COMPILE ~%MOD_FOLDER%/dialogue/safana.d~
+	COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/safana.d~
 
 /* Shar-Teel to South Beregost Road */
 	COPY_EXISTING ~baldur.gam~ ~override~
@@ -438,7 +438,7 @@ ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN
 	FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
 		SET cre_offset = non_joined_npcs_off + i * 0x160
 		READ_ASCII 0xc + cre_offset ~CREName~
-		PATCH_IF (~%CREName%~ STR_EQ ~SHARTE~) BEGIN
+		PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_SHARTE%~) BEGIN
 			WRITE_ASCIIE cre_offset + 0x18 ~%SouthBeregostRoad%~ #8
 			WRITE_SHORT cre_offset + 0x20 4160
 			WRITE_SHORT cre_offset + 0x22 735
@@ -449,16 +449,17 @@ ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN
 	EXTEND_TOP ~%SouthBeregostRoad%.bcs~ ~%MOD_FOLDER%/baf/sharteel_ee.baf~ EVALUATE_BUFFER
 	COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/sharte.d~
 	
-	COPY_EXISTING ~SHARTEL2.bcs~ ~override~	
+	COPY_EXISTING ~%s9bcs_SHARTEL2%.bcs~ ~override~	
 	DECOMPILE_AND_PATCH BEGIN
-		REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH ~%MutaminsGarden%~ ~%SouthBeregostRoad%~
+		LPF s9_replace STR_VAR find = ~%MutaminsGarden%~ repl = ~%SouthBeregostRoad%~ END
 		END
 	BUT_ONLY_IF_IT_CHANGES	
 	
 	COPY_EXISTING ~%MutaminsGarden%.bcs~ ~override~
     DECOMPILE_AND_PATCH BEGIN
-		REPLACE_TEXTUALLY ~Global("SHARTEELFIGHT","GLOBAL",2)~ ~Global("S9SharteelDontBeDifficult","GLOBAL",1)~   // kill these highly unlikely triggers
-		REPLACE_TEXTUALLY ~Global("SHARTEELFIGHT","GLOBAL",1)~ ~Global("S9SharteelDontBeDifficult","GLOBAL",1)~
+		// kill these highly unlikely triggers
+		LPF s9_replace STR_VAR find = ~Global("SHARTEELFIGHT","GLOBAL",2)~ repl = ~Global("S9SharteelDontBeDifficult","GLOBAL",1)~ END
+		LPF s9_replace STR_VAR find = ~Global("SHARTEELFIGHT","GLOBAL",1)~ repl = ~Global("S9SharteelDontBeDifficult","GLOBAL",1)~ END
 		END
 	BUT_ONLY_IF_IT_CHANGES
 	
@@ -469,7 +470,7 @@ ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN
 	FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
 		SET cre_offset = non_joined_npcs_off + i * 0x160
 		READ_ASCII 0xc + cre_offset ~CREName~
-		PATCH_IF (~%CREName%~ STR_EQ ~%TIAX_BCS%~) BEGIN
+		PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_TIAX%~) BEGIN
 			WRITE_ASCIIE cre_offset + 0x18 ~%Beregost%~ #8
 			WRITE_SHORT cre_offset + 0x20 1717
 			WRITE_SHORT cre_offset + 0x22 2433
@@ -484,20 +485,20 @@ ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN
 	FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
 		SET cre_offset = non_joined_npcs_off + i * 0x160
 		READ_ASCII 0xc + cre_offset ~CREName~
-		PATCH_IF (~%CREName%~ STR_EQ ~VICONI~) BEGIN
+		PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_VICONI%~) BEGIN
 			WRITE_ASCIIE cre_offset + 0x18 ~%Temple%~ #8
 			WRITE_SHORT cre_offset + 0x20 2337
 			WRITE_SHORT cre_offset + 0x22 868
 			END
 		END
 		BUT_ONLY_IF_IT_CHANGES
-	COMPILE ~%MOD_FOLDER%/dialogue/viconia.d~
+	COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/viconia.d~
 	
 /* Baeloth spawns near the entrance of High Hedge */
 	COPY_EXISTING ~%Larswood%.bcs~ ~override~
-	DECOMPILE_BCS_TO_BAF
-	REPLACE_TEXTUALLY ~Global("BAINVI","GLOBAL",0)~ ~False()~
-	COMPILE_BAF_TO_BCS
+	DECOMPILE_AND_PATCH BEGIN
+		LPF s9_replace STR_VAR find = ~Global("BAINVI","GLOBAL",0)~ repl = ~False()~ END
+	END BUT_ONLY
 
 	EXTEND_TOP ~%HighHedge%.bcs~ ~%MOD_FOLDER%/baf/s9-bae.baf~
 	LAF S9MoveBaeloth END
@@ -518,8 +519,8 @@ DESIGNATED 41
 	
 	// Make Branwen a Priest of Tempus	
 	
-	COPY_EXISTING ~BRANWE.cre~ ~override~
-		WRITE_SHORT 0x246 (IDS_OF_SYMBOL (~kit~ ~OHTEMPUS~))
+	COPY_EXISTING ~%s9cre_BRANWE%.cre~ ~override~
+		LPF s9_set_kit STR_VAR kit_name = ~OHTEMPUS~ END
 	
 	
 // Make Dynaheir a Sorcerer
@@ -527,18 +528,16 @@ BEGIN @400
 REQUIRE_PREDICATE GAME_IS ~bgee eet~ @600  // This component requires either BG:EE or EET to be installed
 DESIGNATED 400
 GROUP @50	
-	ACTION_IF FILE_EXISTS_IN_GAME ~DYNAHE.cre~ THEN BEGIN
-		COPY_EXISTING ~DYNAHE.CRE~ ~override~
+	ACTION_IF FILE_EXISTS_IN_GAME ~%s9cre_DYNAHE%.cre~ THEN BEGIN
+		COPY_EXISTING ~%s9cre_DYNAHE%.cre~ ~override~
 			WRITE_BYTE 0x273 19		// Sorcerer
-			WRITE_SHORT 0x244 0			// remove Invoker kit
-			WRITE_SHORT 0x246 0x4000	// true class
+			LPF s9_set_kit INT_VAR kit_id = 0x4000 END	// true class (removes the Invoker kit)
 	END	
 	
 	ACTION_IF FILE_EXISTS_IN_GAME ~DYNAHE7.cre~ THEN BEGIN
 		COPY_EXISTING ~DYNAHE7.cre~ ~override~
 			WRITE_BYTE 0x273 19		// Sorcerer
-			WRITE_SHORT 0x244 0			// remove Invoker kit
-			WRITE_SHORT 0x246 0x4000	// true class
+			LPF s9_set_kit INT_VAR kit_id = 0x4000 END	// true class (removes the Invoker kit)
 	END		
 
 // Make Eldoth a Jester
@@ -546,41 +545,41 @@ BEGIN @405
 REQUIRE_PREDICATE GAME_IS ~bgee eet~ @600  // This component requires either BG:EE or EET to be installed
 DESIGNATED 405
 GROUP @50
-	COPY_EXISTING ~ELDOTH.cre~ ~override~
-		WRITE_SHORT 0x246  0x400E	
+	COPY_EXISTING ~%s9cre_ELDOTH%.cre~ ~override~
+		LPF s9_set_kit INT_VAR kit_id = 0x400E END	// Jester
 		
 // Make Faldorn an Avenger
 BEGIN @410
 REQUIRE_PREDICATE GAME_IS ~bgee eet~ @600  // This component requires either BG:EE or EET to be installed
 DESIGNATED 410
 GROUP @50
-	COPY_EXISTING ~FALDOR.cre~ ~override~
-		WRITE_SHORT 0x246 0x4012				
+	COPY_EXISTING ~%s9cre_FALDOR%.cre~ ~override~
+		LPF s9_set_kit INT_VAR kit_id = 0x4012 END	// Avenger
 
 // Make Garrick a Skald
 BEGIN @415
 REQUIRE_PREDICATE GAME_IS ~bgee eet~ @600  // This component requires either BG:EE or EET to be installed
 DESIGNATED 415
 GROUP @50
-	COPY_EXISTING ~GARRIC.cre~ ~override~
-		WRITE_SHORT 0x246 0x400F
+	COPY_EXISTING ~%s9cre_GARRIC%.cre~ ~override~
+		LPF s9_set_kit INT_VAR kit_id = 0x400F END	// Skald
 		
 // Make Kagain a Dwarven Defender
 BEGIN @418
 REQUIRE_PREDICATE GAME_IS ~bgee eet~ @600  // This component requires either BG:EE or EET to be installed
 DESIGNATED 418
 GROUP @50	
-	COPY_EXISTING ~KAGAIN.cre~ ~override~
-		WRITE_SHORT 0x246 0x4022
+	COPY_EXISTING ~%s9cre_KAGAIN%.cre~ ~override~
+		LPF s9_set_kit INT_VAR kit_id = 0x4022 END	// Dwarven Defender
 
 // Make Khalid a Fighter/Mage
 BEGIN @419
 REQUIRE_PREDICATE GAME_IS ~bgee eet~ @600  // This component requires either BG:EE or EET to be installed
 DESIGNATED 419
 GROUP @50
-	COPY_EXISTING ~KHALID.cre~ ~override~
+	COPY_EXISTING ~%s9cre_KHALID%.cre~ ~override~
 		WRITE_BYTE 0x0010 0
-		WRITE_SHORT 0x244 0
+		LPF s9_set_kit INT_VAR kit_id = 0x4000 END	// true class
 		WRITE_BYTE 0x273 7	  // Class
 		WRITE_BYTE 0x0066 10  // Lore
 		WRITE_SHORT 0x0024 7
@@ -598,8 +597,8 @@ BEGIN @420
 REQUIRE_PREDICATE GAME_IS ~bgee eet~ @600  // This component requires either BG:EE or EET to be installed
 DESIGNATED 420
 GROUP @50
-	COPY_EXISTING ~KIVAN.cre~ ~override~
-		WRITE_SHORT 0x246 0x4007
+	COPY_EXISTING ~%s9cre_KIVAN%.cre~ ~override~
+		LPF s9_set_kit INT_VAR kit_id = 0x4007 END	// Archer
 		ADD_CRE_ITEM ~sw1h04~ #0 #0 #0 ~IDENTIFIED~ ~WEAPON1~ EQUIP
 		SET_BG2_PROFICIENCY 114 2
 		SET_BG2_PROFICIENCY 104 2
@@ -611,14 +610,14 @@ BEGIN @430
 REQUIRE_PREDICATE GAME_IS ~bgee eet~ @600  // This component requires either BG:EE or EET to be installed
 DESIGNATED 430
 GROUP @50	
-	ACTION_IF FILE_EXISTS_IN_GAME ~SAFANA.cre~ THEN BEGIN
-		COPY_EXISTING ~SAFANA.CRE~ ~override~
-			WRITE_SHORT 0x246 0x400C
+	ACTION_IF FILE_EXISTS_IN_GAME ~%s9cre_SAFANA%.cre~ THEN BEGIN
+		COPY_EXISTING ~%s9cre_SAFANA%.cre~ ~override~
+			LPF s9_set_kit INT_VAR kit_id = 0x400C END	// Swashbuckler
 	END	
 	
 	ACTION_IF FILE_EXISTS_IN_GAME ~SAFANA7.cre~ THEN BEGIN
 		COPY_EXISTING ~SAFANA7.cre~ ~override~
-			WRITE_SHORT 0x246 0x400C
+			LPF s9_set_kit INT_VAR kit_id = 0x400C END	// Swashbuckler
 	END
 			
 // Make Shar-Teel a Berserker
@@ -627,8 +626,8 @@ REQUIRE_PREDICATE GAME_IS ~bgee eet~ @600  // This component requires either BG:
 SUBCOMPONENT @451
 DESIGNATED 440
 GROUP @50
-	COPY_EXISTING ~SHARTE.cre~ ~override~
-		WRITE_SHORT 0x246 0x4001
+	COPY_EXISTING ~%s9cre_SHARTE%.cre~ ~override~
+		LPF s9_set_kit INT_VAR kit_id = 0x4001 END	// Berserker
 		WRITE_SHORT 0x0024 10
 		WRITE_SHORT 0x0026 10		
 
@@ -638,9 +637,8 @@ REQUIRE_PREDICATE GAME_IS ~bgee eet~ @600  // This component requires either BG:
 SUBCOMPONENT @451
 DESIGNATED 441
 GROUP @50	
-	COPY_EXISTING ~SHARTE.cre~ ~override~
-		WRITE_SHORT 0x244 0x4000
-		WRITE_SHORT 0x246 0x0000
+	COPY_EXISTING ~%s9cre_SHARTE%.cre~ ~override~
+		LPF s9_set_kit INT_VAR kit_id = 0x40000000 END	// Barbarian
 		WRITE_SHORT 0x0024 12
 		WRITE_SHORT 0x0026 12
 		
@@ -649,8 +647,8 @@ BEGIN @450
 REQUIRE_PREDICATE GAME_IS ~bgee eet~ @600  // This component requires either BG:EE or EET to be installed
 DESIGNATED 450
 GROUP @50
-	COPY_EXISTING ~SKIE.cre~ ~override~
-		WRITE_SHORT 0x246 0x4021
+	COPY_EXISTING ~%s9cre_SKIE%.cre~ ~override~
+		LPF s9_set_kit INT_VAR kit_id = 0x4021 END	// Shadowdancer
 		WRITE_BYTE 0x0045 35 		// hide in shadows
 		WRITE_BYTE 0x0064 10 		// detect illusion
 		WRITE_BYTE 0x0065 0 		// set traps
@@ -668,7 +666,7 @@ DESIGNATED 60
 	//Hopefully this will change someday and sorcerers will be unlocked to be able to dual class.	
 	PRINT @401
 	LOG @401
-	COPY_EXISTING ~DYNAHE.cre~ ~override~
+	COPY_EXISTING ~%s9cre_DYNAHE%.cre~ ~override~
 		WRITE_BYTE 0x023b 17 // wisdom + 2	
 
 	ACTION_IF FILE_EXISTS_IN_GAME ~DYNAHE7.cre~ THEN BEGIN
@@ -676,10 +674,10 @@ DESIGNATED 60
 			WRITE_BYTE 0x023b 17   	// wisdom + 2
 	END		
 	
-	COPY_EXISTING ~BRANWE.cre~ ~override~
+	COPY_EXISTING ~%s9cre_BRANWE%.cre~ ~override~
 		WRITE_BYTE 0x023c 17	//dex + 1
 
-	COPY_EXISTING ~SAFANA.cre~ ~override~
+	COPY_EXISTING ~%s9cre_SAFANA%.cre~ ~override~
 		WRITE_BYTE 0x023a 17   	//Int + 1
 	
 	ACTION_IF FILE_EXISTS_IN_GAME ~SAFANA7.cre~ THEN BEGIN
@@ -687,6 +685,6 @@ DESIGNATED 60
 			WRITE_BYTE 0x023a 17   	//Int + 1
 	END
 		
-	COPY_EXISTING ~XZAR.cre~ ~override~
+	COPY_EXISTING ~%s9cre_XZAR%.cre~ ~override~
 		WRITE_BYTE 0x023b 17  	// wisdom + 1
 		WRITE_BYTE 0x023c 17  	// dex + 1

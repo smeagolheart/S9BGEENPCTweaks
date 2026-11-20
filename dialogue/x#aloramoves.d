@@ -1,5 +1,5 @@
 
-APPEND ~%tutu_var%ALORA~
+APPEND ~%s9dlg_ALORA%~
 
 IF WEIGHT #-2 ~NumTimesTalkedTo(0) AreaCheck("%Gullykin%")~ THEN BEGIN AlJoin
 SAY @0

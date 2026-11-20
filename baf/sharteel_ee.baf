@@ -2,7 +2,7 @@ IF
 	Global("SHARTEELFIGHT","GLOBAL",1)
 THEN
 	RESPONSE #100
-		ActionOverride("sharteel",ChangeAIScript("SHARTEL2",OVERRIDE))
+		ActionOverride("sharteel",ChangeAIScript("%s9bcs_SHARTEL2%",OVERRIDE))
 		SetGlobal("SHARTEELFIGHT","GLOBAL",2)
 END
 
@@ -17,7 +17,7 @@ THEN
 		ClearActions("sharteel")
 		ClearActions(StrongestOfMale)
 		ActionOverride("sharteel",ChangeEnemyAlly("sharteel",NEUTRAL))
-		ActionOverride("sharteel",ChangeAIScript("sharteel",OVERRIDE))
+		ActionOverride("sharteel",ChangeAIScript("%SHARTEEL_BCS%",OVERRIDE))
 		ActionOverride("sharteel",Dialogue([PC]))
 END
 
@@ -34,6 +34,6 @@ THEN
 		ClearActions("sharteel")
 		ClearActions(StrongestOfMale)
 		ActionOverride("sharteel",ChangeEnemyAlly("sharteel",NEUTRAL))
-		ActionOverride("sharteel",ChangeAIScript("sharteel",OVERRIDE))
+		ActionOverride("sharteel",ChangeAIScript("%SHARTEEL_BCS%",OVERRIDE))
 		ActionOverride("sharteel",Dialogue([PC]))
 END

@@ -27,6 +27,10 @@
 @605 = ~This component requires Priest of Tempus kit to be installed and is a component of 'Adjust NPC Classes".~
 @606 = ~This component is incompatible with EE content tweaks components 2 and 5.~
 
+// Install-time warnings
+@700 = ~WARNING: could not find "%find%" in %SOURCE_FILE%. Your game version may have changed this file, so this NPC change may not work as intended.~
+@701 = ~WARNING: kit "%kit_name%" was not found, so %SOURCE_FILE% was not given a new kit.~
+
 // Faldorn @777 and @6138
 @1000 = ~A group of men have been defiling the woodlands to the west with smoke and waste.  I must stop them.  I have travelled here in seek of comrades to help put an end to these men and their evil ways.  I will not hide the truth, I seek to destroy these men.  Would you join me in my task?~
 @1001 = ~Have you changed your minds about putting an end to those evil men?  Together we can end the defiling of Cloakwood Forest.~

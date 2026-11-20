@@ -6,8 +6,8 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobal("DORNExists","GLOBAL",1)
-		CreateCreature("DORN",[2747.311],S) // Dorn
+		CreateCreature("%s9cre_DORN%",[2747.311],S) // Dorn
 		ActionOverride("DORN",MakeGlobal())
-		ActionOverride("DORN",ChangeAIScript("DORN",OVERRIDE))
+		ActionOverride("DORN",ChangeAIScript("%DORN_BCS%",OVERRIDE))
 		
 END
