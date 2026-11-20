@@ -125,8 +125,8 @@ BEGIN
 	END
 END
 
-// Sets a creature's kit. Vanilla kit IDs are fixed by the engine; a mod-added kit
-// (kit_name, e.g. OHTEMPUS) is looked up in KIT.IDS because its number depends on install order.
+// Sets a creature's kit. Vanilla kit IDs are fixed by the engine; a kit added by a mod
+// (kit_name) is looked up in KIT.IDS because its number depends on install order.
 // The CRE stores the kit dword with its two halves swapped.
 DEFINE_PATCH_FUNCTION s9_set_kit
   INT_VAR
