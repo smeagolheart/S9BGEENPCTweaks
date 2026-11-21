@@ -141,6 +141,19 @@ BEGIN @10 DESIGNATED 10
 				END
 		END
 
+// AI-generated voiceovers for the new lines in Convenient NPCs. Install this before
+// Convenient NPCs: that component then writes each line with its sound.
+BEGIN @25
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @600
+DESIGNATED 25
+	ACTION_BASH_FOR ~%MOD_FOLDER%/voice~ ~^S9TWV.*\.wav$~ BEGIN
+		COPY ~%BASH_FOR_FILESPEC%~ ~override~
+	END
+	ACTION_IF (MOD_IS_INSTALLED ~S9BGEENPCTweaks.tp2~ ~30~) BEGIN
+		PRINT @611
+	END
+
+
 BEGIN @30
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @600  // This component requires either BG:EE or EET to be installed
 REQUIRE_PREDICATE (NOT ((MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 2) OR 
@@ -149,6 +162,14 @@ FORBID_COMPONENT ~setup-scs.tp2~ 3070 @598
 FORBID_COMPONENT ~setup-stratagems.tp2~ 4130 @598	
 FORBID_COMPONENT ~bg1npc.tp2~ 1070 @598
 DESIGNATED 30
+
+// With the voiceover component installed, write the new lines together with their sounds.
+ACTION_IF (MOD_IS_INSTALLED ~S9BGEENPCTweaks.tp2~ ~25~) BEGIN
+	OUTER_SET s9_voice = 1
+	LOAD_TRA ~%MOD_FOLDER%/translations/%LANGUAGE%/voice.tra~
+END ELSE BEGIN
+	OUTER_SET s9_voice = 0
+END
 
 ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN	
 	/* Alora to start in Gullykin near the door to the winery. */
@@ -167,8 +188,13 @@ ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN
       END
       BUT_ONLY_IF_IT_CHANGES
 	  
-	COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/x#aloramoves.d~
-		USING ~%MOD_FOLDER%/translations/%LANGUAGE%/X#ALORAN.TRA~
+	ACTION_IF (s9_voice = 1) BEGIN
+		COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/x#aloramoves.d~
+			USING ~%MOD_FOLDER%/translations/%LANGUAGE%/X#ALORAN.TRA~ ~%MOD_FOLDER%/translations/%LANGUAGE%/X#ALORAN_voice.tra~
+	END ELSE BEGIN
+		COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/x#aloramoves.d~
+			USING ~%MOD_FOLDER%/translations/%LANGUAGE%/X#ALORAN.TRA~
+	END
 
     COPY_EXISTING ~%HallofWonders_BCS%.bcs~ ~override~
       DECOMPILE_AND_PATCH BEGIN

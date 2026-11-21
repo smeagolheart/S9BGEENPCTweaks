@@ -1,0 +1,17 @@
+// AI voiceovers (component 25). Same text as S9NPCTweaks.tra, plus the sound file.
+// If you change one of these lines in S9NPCTweaks.tra, change it here too.
+
+@608 = ~I'm surprised to find someone like yourself out here. You look weary, down on your times. Why don't you all have a rest and let me treat you to some fine refreshments, perhaps... Berduskan amber wine? It's far better than what they pour here.~ [S9TWV20]
+@1010 = ~It is a surprise to find such beautiful people here.  Ah but you look a bit down on your times, why not rest?  I'll treat you to some refreshments.  Perhaps some Berduskan amber wine?~ [S9TWV21]
+@1011 = ~Sorry if I seem out of breath, but I had to retreat from a battle.  I was ambushed by dozens of gnolls on the road.  I handily dispatched them but thought better of fighting their half dozen ogre friends.  Would any of you care for a drink of some fine Selgauntian brandy?~ [S9TWV22]
+@1020 = ~Its refreshing to find other people in this place.  My name is Coran: thief and archer!  I've been alone in the wilderness for far too long.  I wouldn't mind returning to the big city but I have yet to collect my bounty.  I'd share the reward with the lot of you, if you would help hasten the hunt.  Are you interested in hearing more?~ [S9TWV10]
+@1050 = ~You there, <RACE>. You look like you may not be totally worthless.~ [S9TWV11]
+@1056 = ~Hurry up, <RACE>. This task needs attention soon.~ [S9TWV19]
+@1058 = ~You will have treasure and items from their corpses after they are done twitching.~ [S9TWV15]
+@1059 = ~Have you decided to help me confront my old associates?~ [S9TWV12]
+@1060 = ~I will be right behind you. This will be - fun.~ [S9TWV16]
+@1061 = ~My associates will have guards. You will merely provide a distraction so that I may deal with my associates directly.~ [S9TWV14]
+@1062 = ~Cowardly <RACE>! I would deal with them now by myself but they may try to escape if they spot me. I have tracked my old associates for too long to let them get away from me now.~ [S9TWV17]
+@1063 = ~I have found some of my old associates at a nearby clearing. I mean to confront them for double-crossing me. Will you come?~ [S9TWV13]
+@1065 = ~I will remain here in case you find your courage.~ [S9TWV18]
+@10100 = ~Please excuse me. I'm in a hurry.~ [S9TWV23]

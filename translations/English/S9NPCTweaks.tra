@@ -1,6 +1,7 @@
 @1=~BG:EE Variables~
 @2=~EET Variables~
 @10=~NPC Portraits~
+@25=~AI-generated voiceovers for the new dialogue (install before Convenient NPCs)~
 @30=~Convenient NPCs~
 @50=~Adjust NPC Classes~
 @60=~Dual Class Friendly Stats for Branwen, Dynaheir, Safana and Xzar~
@@ -26,6 +27,7 @@
 @608 = ~I'm surprised to find someone like yourself out here. You look weary, down on your times. Why don't you all have a rest and let me treat you to some fine refreshments, perhaps... Berduskan amber wine? It's far better than what they pour here.~
 @609 = ~WARNING: could not find The Vanishing of Skie Silvershield's opening line for Eldoth, so it was not reworded for the Red Sheaf.~
 @610 = ~EET: Neera's BG2 introduction is left as EET sets it up, so it still plays automatically. Her BG1 change is still applied.~
+@611 = ~Convenient NPCs is already installed, so its lines have no voice yet. Reinstall Convenient NPCs to add the voiceovers.~
 
 // Install-time warnings
 @700 = ~WARNING: could not find "%find%" in %SOURCE_FILE%. Your game version may have changed this file, so this NPC change may not work as intended.~
