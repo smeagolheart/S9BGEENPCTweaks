@@ -18,6 +18,8 @@ A WeiDU mod for **Baldur's Gate: Enhanced Edition** and **EET** (with partial BG
 
 On EET, install this after EET itself.
 
+If The Vanishing of Skie Silvershield is installed, Convenient NPCs leaves Eldoth alone. That mod already moves him to the Friendly Arm Inn and gives him a new first meeting. Install The Vanishing before this mod so that it is detected.
+
 ## Credits
 
 - **Smeagolheart** – mod author
@@ -37,6 +39,7 @@ On EET, install this after EET itself.
 - EET: BG1 creatures, dialogues and scripts that EET renames (e.g. DORN_, VICONI_) are now found automatically
 - Script edits now give an install warning if a game patch changed the text they look for, instead of silently doing nothing
 - Kits are set through one helper
+- Convenient NPCs no longer moves Eldoth or changes his first meeting when The Vanishing of Skie Silvershield is installed
 - Removed "Add Priest of Tempus kit" (component 20) and "Make Branwen a Priest of Tempus" (component 41): EE 2.5 and later include the kit, and Branwen is already a Priest of Tempus
 
 **1.1** (2016)
@@ -79,7 +82,7 @@ Several BG1 NPCs are one ability point short of being able to dual-class. You co
 
 *Adjust NPC Classes*
 Optional class and kit changes for BG1 NPCs:
-- **Branwen – Priest of Tempus:** needed the Priest of Tempus kit component.
+- **Branwen – Priest of Tempus:** needed the Priest of Tempus kit component.  (removed in v1.2)
 - **Dynaheir – Sorcerer:** for both her BG1 and SoD versions. As a Sorcerer she can't dual-class, even with the Dual Class Friendly Stats component.
 - **Eldoth – Jester**
 - **Faldorn – Avenger:** a kit that fits her personality.
@@ -91,4 +94,3 @@ Optional class and kit changes for BG1 NPCs:
 - **Shar-Teel – Berserker or Barbarian:** for her anger. As a Barbarian she can't dual-class unless another mod allows it, such as the "Expanded Dual-Class Options" component of Tweaks Anthology.
 - **Skie – Shadowdancer:** her biography calls her a natural dancer who is good at sneaking off.
 
-The original readme also described two features that aren't in the 1.1 code: Nalia no longer starting conversations on her own in BG2:EE, and making Xan a Blade.
