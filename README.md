@@ -7,7 +7,7 @@ A WeiDU mod for **Baldur's Gate: Enhanced Edition** and **EET** (with partial BG
 | # | Component | Games |
 |---|-----------|-------|
 | 10 | NPC Portraits | BGEE, BG2EE, EET |
-| 30 | Convenient NPCs (moves Alora, Coran, Dorn, Eldoth, Quayle, Safana, Shar-Teel, Tiax, Viconia and Baeloth closer to the main path; passive Hexxat, Neera and Rasaad introductions) | BGEE, EET |
+| 30 | Convenient NPCs (moves Alora, Coran, Dorn, Eldoth, Quayle, Safana, Shar-Teel, Tiax, Viconia and Baeloth closer to the main path; passive Hexxat, Neera and Rasaad introductions; on EET, Neera's BG2 introduction is left unchanged) | BGEE, EET |
 | 400–450 | Adjust NPC Classes: Dynaheir Sorcerer, Eldoth Jester, Faldorn Avenger, Garrick Skald, Kagain Dwarven Defender, Khalid Fighter/Mage, Kivan Archer, Safana Swashbuckler, Shar-Teel Berserker *or* Barbarian, Skie Shadowdancer | BGEE, EET |
 | 60 | Dual-class-friendly stats for Branwen, Dynaheir, Safana and Xzar | BGEE, EET |
 

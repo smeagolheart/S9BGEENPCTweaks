@@ -25,6 +25,7 @@
 // The Vanishing of Skie Silvershield: Eldoth's opening line, reworded for the Red Sheaf
 @608 = ~I'm surprised to find someone like yourself out here. You look weary, down on your times. Why don't you all have a rest and let me treat you to some fine refreshments, perhaps... Berduskan amber wine? It's far better than what they pour here.~
 @609 = ~WARNING: could not find The Vanishing of Skie Silvershield's opening line for Eldoth, so it was not reworded for the Red Sheaf.~
+@610 = ~EET: Neera's BG2 introduction is left as EET sets it up, so it still plays automatically. Her BG1 change is still applied.~
 
 // Install-time warnings
 @700 = ~WARNING: could not find "%find%" in %SOURCE_FILE%. Your game version may have changed this file, so this NPC change may not work as intended.~

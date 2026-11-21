@@ -314,7 +314,7 @@ ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN
 	
 	COPY_EXISTING ~%s9bcs_SHARTEL2%.bcs~ ~override~	
 	DECOMPILE_AND_PATCH BEGIN
-		LPF s9_replace STR_VAR find = ~%MutaminsGarden%~ repl = ~%SouthBeregostRoad%~ END
+		LPF s9_replace STR_VAR find = EVAL ~%MutaminsGarden%~ repl = EVAL ~%SouthBeregostRoad%~ END
 		END
 	BUT_ONLY_IF_IT_CHANGES	
 	

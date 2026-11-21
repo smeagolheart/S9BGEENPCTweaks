@@ -15,8 +15,12 @@ BEGIN
     END
   END
 
-  // BG2 portion
-  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+  // BG2 portion. Not on EET: EET has its own version of Neera's BG2 introduction (it brings her
+  // over from your BG1 party), and replacing OHNMCUT1 here would break that.
+  ACTION_IF (GAME_IS ~eet~) BEGIN
+    PRINT @610
+  END
+  ACTION_IF (GAME_IS ~bg2ee~) BEGIN
     ACTION_IF (FILE_EXISTS_IN_GAME ~OHNCUT1A.BCS~) BEGIN
       COPY_EXISTING ~OHNCUT1A.BCS~ ~override~
         DECOMPILE_AND_PATCH BEGIN
