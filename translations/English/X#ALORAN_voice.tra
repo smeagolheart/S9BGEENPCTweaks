@@ -1,4 +1,4 @@
-// AI voiceovers (component 25). Same text as X#ALORAN.TRA, plus the sound file.
+// AI voiceovers (Convenient NPCs, component 31). Same text as X#ALORAN.TRA, plus the sound file.
 // If you change one of these lines in X#ALORAN.TRA, change it here too.
 
 @0 = ~Hey, you're not from around here!  Yeesh! There's no polish on yer boots, no snap in yer suspenders. You're not merchants.  They're always so much more presentable. Aww nutbunnies, adventurers in Gullykin! Yer gonna loot them Firewine ruins?~ [S9TWV02]

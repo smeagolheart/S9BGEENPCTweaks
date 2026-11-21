@@ -1,4 +1,4 @@
-// AI voiceovers (component 25). Same text as S9NPCTweaks.tra, plus the sound file.
+// AI voiceovers (Convenient NPCs, component 31). Same text as S9NPCTweaks.tra, plus the sound file.
 // If you change one of these lines in S9NPCTweaks.tra, change it here too.
 
 @608 = ~I'm surprised to find someone like yourself out here. You look weary, down on your times. Why don't you all have a rest and let me treat you to some fine refreshments, perhaps... Berduskan amber wine? It's far better than what they pour here.~ [S9TWV20]
