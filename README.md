@@ -1,97 +1,103 @@
 # S9 BGEE NPC Tweaks
 
-A WeiDU mod for **Baldur's Gate: Enhanced Edition** and **EET** (with partial BG2:EE support) that adds new NPC portraits, makes several BG1 NPCs easier to find, and offers optional class/kit changes for the original NPCs.
+**For BG:EE, Siege of Dragonspear, BG2:EE and EET** · by Smeagolheart · version 1.2
+
+**Download:** [GitHub releases](https://github.com/smeagolheart/S9BGEENPCTweaks/releases) · **Source:** [github.com/smeagolheart/S9BGEENPCTweaks](https://github.com/smeagolheart/S9BGEENPCTweaks)
+
+A WeiDU mod that tweaks the NPCs of the Baldur's Gate saga, mostly in BG1 and Siege of Dragonspear. It gives them consistent portraits, makes hard-to-find NPCs easier to meet, and adds optional class tweaks.
 
 ## Components
 
-| # | Component | Games |
-|---|-----------|-------|
-| 10 | NPC Portraits | BGEE, BG2EE, EET |
-| 30 / 31 | Convenient NPCs, without or with AI voiceovers for its new lines (moves Alora, Coran, Dorn, Eldoth, Quayle, Safana, Shar-Teel, Tiax, Viconia and Baeloth closer to the main path; passive Hexxat, Neera and Rasaad introductions; on EET, Neera's BG2 introduction is left unchanged) | BGEE, EET |
-| 400–450 | Adjust NPC Classes: Dynaheir Sorcerer, Eldoth Jester, Faldorn Avenger, Garrick Skald, Kagain Dwarven Defender, Khalid Fighter/Mage, Kivan Archer, Safana Swashbuckler, Shar-Teel Berserker *or* Barbarian, Skie Shadowdancer | BGEE, EET |
-| 60 | Dual-class-friendly stats for Branwen, Dynaheir, Safana and Xzar | BGEE, EET |
+### NPC Portraits (BG:EE, SoD, BG2:EE, EET)
+Each NPC uses the same portrait for the whole saga, in every version of the character. Viconia also keeps her SoD colors throughout. To use a different portrait, replace its file in `NPC_Portraits` and reinstall. Changes show up in a new game.
+
+### Convenient NPCs (mostly BG:EE)
+Moves NPCs who are hard to find until late in the game closer to the main path, with dialogue adjusted to match. Choose **Without voiceovers** or **With AI voiceovers**; the second voices the new lines for Alora, Coran, Dorn, Eldoth and Rasaad.
+
+| NPC | Change |
+|-----|--------|
+| Alora | Hall of Wonders → Gullykin, by the winery door |
+| Baeloth | Larswood → outside High Hedge, with a shorter introduction (still needs level 5) |
+| Coran | Middle of the Cloakwood bridge → the big rock just before it; quest timer 7 → 8 days |
+| Dorn | Waits outside the cabin at the Nashkel Mines and asks for your help with an ambush. In SoD, he can join at the Three Old Kegs or later at the camp. |
+| Eldoth | Cloakwood → Red Sheaf in Beregost, by the bartender |
+| Quayle | Outside Baldur's Gate → Nashkel Carnival, by Great Gazib's show |
+| Safana | Coastal lighthouse → Jovial Juggler; quest timer 5 → 30 days |
+| Shar-Teel | Mutamin's Garden → South Beregost Road |
+| Tiax | Baldur's Gate → Beregost town square |
+| Viconia | Peldvale → southwest corner of the Temple area |
+| Hexxat, Neera, Rasaad | Wait for you to talk to them instead of starting their introductions on their own. On EET, Neera's BG2 introduction is left as EET sets it up. |
+
+### Adjust NPC Classes (BG:EE, EET)
+Optional, one component each:
+- Dynaheir → Sorcerer (also her SoD version; she can no longer dual-class)
+- Eldoth → Jester
+- Faldorn → Avenger
+- Garrick → Skald
+- Kagain → Dwarven Defender
+- Khalid → Fighter/Mage
+- Kivan → Archer
+- Safana → Swashbuckler
+- Shar-Teel → Berserker or Barbarian (a Barbarian can't dual-class without another mod, such as Tweaks Anthology)
+- Skie → Shadowdancer
+
+### Dual Class Friendly Stats (BG:EE, EET)
+Small stat boosts that you could also get from tomes, so these NPCs can dual-class:
+- Branwen: +1 Dexterity (Cleric → Thief)
+- Dynaheir: +2 Wisdom (Mage → Cleric)
+- Safana: +1 Intelligence (Thief → Mage)
+- Xzar: +1 Dexterity, +2 Wisdom (Necromancer → Cleric or Thief)
 
 ## Installation
 
 1. Extract the `S9BGEENPCTweaks` folder and `setup-S9BGEENPCTweaks.exe` (any recent WeiDU, renamed) into your game folder.
 2. Run `setup-S9BGEENPCTweaks.exe` and pick the components you want.
 
-On EET, install this after EET itself.
+- **EET:** install this after EET.
+- **The Vanishing of Skie Silvershield** by Lava: install it *before* this mod, and Eldoth starts at the Red Sheaf with its quest intact. If you install it after this mod, it moves him to the Friendly Arm Inn as usual.
+- Convenient NPCs can't be combined with the NPC-moving components of SCS, BG1 NPC Project or EE Content Tweaks.
+- **Upgrading from 1.1:** uninstall 1.1 first, because component numbers have changed.
 
-Convenient NPCs works with The Vanishing of Skie Silvershield. Eldoth still starts at the Red Sheaf instead of the Friendly Arm Inn, and The Vanishing's dialogue and quest run there as normal. Install The Vanishing before this mod so that it is detected.
+## Version history
+
+**1.2** (2026)
+- Optional AI voiceovers for the new lines in Convenient NPCs
+- Compatible with The Vanishing of Skie Silvershield
+- Better EET support, plus install warnings if a game patch or another mod changed something the mod relies on
+- Installs on Mac and Linux
+- Fixes for Dynaheir's Sorcerer kit, Shar-Teel's fight on EET and Dorn's new introduction; Eldoth's lines now fit wherever he starts
+- Removed the Priest of Tempus kit and the Branwen Priest of Tempus component: both are in the base game since EE 2.5
+
+**1.1** (29 Aug 2016)
+- Garrick can be a Skald and Eldoth a Jester
+- Bug fix
+
+**1.0** (27 May 2016)
+- Initial release
 
 ## Credits
 
-- **Smeagolheart** – mod author
-- **K4thos** – the EET variable library
-- **Argent77** – passive Hexxat / Neera / Rasaad introductions, used with permission
-- **BG1 NPC Project team** – NPC relocation code
+- **Smeagolheart:** coding, AI voiceovers
+- **BG1 NPC Project team:** the Alora move
+- **K4thos:** EET compatibility code
+- **Anomaly:** [BG1 NPCs at Beginning (for BGT)](http://www.shsforums.net/topic/54750-bg1-npcs-at-beginning-for-bgt-22-with-individual-npcs-moving/)
+- **Argent77:** code from *Disabled Enhanced Edition NPCs*, used with permission
 - Author of the BG:EE variable library (`liam_bgee_vars.tpa`)
+- Dual Class Friendly Stats was inspired by [this thread](https://forums.beamdog.com/discussion/43803/tomes-of-ability-increase), and Viconia's colors by [this one](https://forums.beamdog.com/discussion/50087/viconia-devirs-sod-portrait/p1).
 
-## Changelog
+### Portraits
+These are my favorite replacements for the stock portraits, credited as best I remember. If you're one of the artists and would rather not have yours in this free mod, let me know and I'll remove it.
 
-**1.2**
-- Dynaheir's Invoker kit is now removed when she becomes a Sorcerer
-- Fixed Shar-Teel's relocated fight on EET
-- New Dorn introduction now always takes priority
-- Paths now work with WeiDU on macOS and Linux
-- Class components have fixed component numbers
-- EET: BG1 creatures, dialogues and scripts that EET renames (e.g. DORN_, VICONI_) are now found automatically
-- Script edits now give an install warning if a game patch changed the text they look for, instead of silently doing nothing
-- Kits are set through one helper
-- Convenient NPCs can now be installed with AI voiceovers for its new lines (Alora, Coran, Dorn, Eldoth, Rasaad)
-- Compatible with The Vanishing of Skie Silvershield: Eldoth stays at the Red Sheaf and uses that mod's dialogue and quest, with his opening line reworded to fit the tavern
-- Removed "Add Priest of Tempus kit" (component 20) and "Make Branwen a Priest of Tempus" (component 41): EE 2.5 and later include the kit, and Branwen is already a Priest of Tempus
-
-**1.1** (2016)
-
-The first public release. It started as a set of personal tweaks for BG:EE and Siege of Dragonspear, with some support for BG2:EE and EET.
-
-*Consistent NPC Portraits* (BG:EE, SoD, BG2:EE, EET)
-- Gave each NPC one portrait, from the `NPC_Portraits` folder, for the whole saga, so Imoen, for example, looks the same in BG1, SoD and BG2.
-- On a BG:EE install with SoD, both versions of an NPC were changed; on BG2:EE, the BG2 versions were.
-- To use a different portrait, replace the file in `NPC_Portraits` and reinstall the component.
-- Also gave Viconia her SoD colors in every game, for a consistent look.
-- Only NPCs who hadn't spawned yet were affected, so the changes showed up in a new game.
-
-*Convenient NPCs* (mostly BG:EE)
-Several BG1 NPCs are hard to find until well into the game. Alora, for example, needed an easy-to-miss quest in Baldur's Gate, which isn't open until Chapter 5. Dorn needed a talk at the Friendly Arm Inn, where he won't join, and then a seemingly random meeting near the Nashkel Mines. This component moved NPCs closer to the main path and adjusted their dialogue to match:
-- **Alora:** from the Hall of Wonders to Gullykin, near the door to the winery. The code comes from the BG1 NPC Project.
-- **Baeloth:** from a tower area in Larswood to outside the entrance to High Hedge, with a shorter introductory cutscene. He still only appears once you're level 5.
-- **Coran:** from the middle of the Cloakwood Forest bridge to the big rock just before it. His quest timer went from seven days to eight.
-- **Dorn (BG:EE):** waits outside the cabin at the Nashkel Mines and asks you to help him ambush his old associates.
-- **Dorn (SoD):** waits in the Three Old Kegs, so he can join much earlier. If you don't recruit him there, he waits at the expedition camp.
-- **Eldoth:** from Cloakwood Forest to the Red Sheaf in Beregost, near the bartender, with a slightly changed first meeting.
-- **Quayle:** from outside Baldur's Gate to the Nashkel Carnival, near Great Gazib's show.
-- **Safana:** from the coastal lighthouse area to the Jovial Juggler. Her quest timer went from five days to thirty.
-- **Shar-Teel:** from Mutamin's Garden to the South Beregost Road, a short way south of its northern end.
-- **Tiax:** from Baldur's Gate to the Beregost town square, next to Feldepost's Inn.
-- **Viconia:** from Peldvale to the southwest corner of the Temple area.
-- **Hexxat (BG2:EE) and Neera (BG:EE):** they no longer start a conversation on their own. To recruit them, talk to them.
-- **Neera (BG2:EE):** her Bridge District introduction cutscene starts only when you talk to her. She waits near where the Red Wizards scene happens, after the townsfolk talk about the local murders.
-- **Rasaad (BG2:EE):** his Trademeet introduction cutscene starts only when you talk to him. He waits near the fountain.
-
-*Add the Priest of Tempus Kit*
-- Added the Icewind Dale Priest of Tempus kit.
-
-*Dual Class Friendly Stats*
-Several BG1 NPCs are one ability point short of being able to dual-class. You could fix that with tomes, but those tomes belong to CHARNAME. This component gave them the boost instead; every boost is something you could get in game with tomes:
-- **Branwen:** +1 Dexterity, so she can dual from Cleric to Thief.
-- **Dynaheir:** +2 Wisdom, so she can dual from Mage (Invoker) to Cleric.
-- **Safana:** +1 Intelligence, so she can dual from Thief to Mage.
-- **Xzar:** +1 Dexterity and +2 Wisdom, so he can dual from Necromancer to Cleric or Thief.
-
-*Adjust NPC Classes*
-Optional class and kit changes for BG1 NPCs:
-- **Branwen – Priest of Tempus:** needed the Priest of Tempus kit component.  (removed in v1.2)
-- **Dynaheir – Sorcerer:** for both her BG1 and SoD versions. As a Sorcerer she can't dual-class, even with the Dual Class Friendly Stats component.
-- **Eldoth – Jester**
-- **Faldorn – Avenger:** a kit that fits her personality.
-- **Garrick – Skald**
-- **Kagain – Dwarven Defender:** Kagain isn't really a Berserker, and no other NPC uses this kit.
-- **Khalid – Fighter/Mage:** his wife Jaheira is a Fighter/Druid, so Khalid became a multi-class too.
-- **Kivan – Archer:** a kit that fits him.
-- **Safana – Swashbuckler:** for her pirate-ship past and adventurous spirit.
-- **Shar-Teel – Berserker or Barbarian:** for her anger. As a Barbarian she can't dual-class unless another mod allows it, such as the "Expanded Dual-Class Options" component of Tweaks Anthology.
-- **Skie – Shadowdancer:** her biography calls her a natural dancer who is good at sneaking off.
-
+- **Plasmocat**, [BG NPC Portraits in BG2 Style](http://www.gibberlings3.net/plasmocat/bgbg2.php#): Ajantis, Alora, Faldorn, Garrick, Kagain (background edited), Khalid, Montaron, Quayle, Shar-Teel, Skie, Tiax, Xzar
+- **Norimichi Tanaka**, [online portfolio](http://www.littlemistake.com/archives/2524): Dorn, Edwin, Mazzy, Nalia, Neera, Wilson
+- **NiGHTMARE**, [NPC Beautification Pack](http://www.gibberlings3.net/nmbeauty/): Haer'Dalis (edited), Yoshimo
+- **Enkida**, [deviantArt](https://www.deviantart.com/art/BG2-NPC-Kivan-281829805): Kivan, Minsc
+- **Isandir's** portrait edits: Hexxat, Safana
+- **artastrophe**, [deviantArt](http://artastrophe.deviantart.com/art/BG-Siege-of-Dragonspear-600014757): M'Khiin
+- **Syntia13**, [Rasaad, then and now](http://www.deviantart.com/art/Rasaad-then-and-now-374779254): Rasaad
+- [Portraits alternatifs](http://www.baldursgateworld.fr/lacouronne/le-comptoir-damn/22739-portraits-alternatifs-3.html): Dynaheir, Eldoth
+- [Clerics get their Deity Colors](http://www.shsforums.net/topic/34869-clerics-get-their-deity-colours/) (I think): Yeslick
+- [RPG Codex](http://www.rpgcodex.net/forums/index.php?threads/will-poe-be-shit.94392/page-16): Anomen
+- **Edited by me:** Corwin, Glint, Xan (based on [this version by zoyah](http://zoyah.deviantart.com/art/Xan-BG-II-unfinished-111035201))
+- **Beamdog, unaltered:** Baeloth; Viconia (SoD portrait)
+- **Source lost to time** (message me and I'll credit you): Aerie, Branwen, Cernd, Coran, Imoen, Jaheira, Jan, Korgan, Sarevok
