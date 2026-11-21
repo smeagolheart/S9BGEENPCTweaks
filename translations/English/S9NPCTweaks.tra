@@ -22,6 +22,9 @@
 @601 = ~This component requires either BG2:EE or EET to be installed.~
 @606 = ~This component is incompatible with EE content tweaks components 2 and 5.~
 @607 = ~The Vanishing of Skie Silvershield is installed: Eldoth will stay at the Red Sheaf and use its dialogue and quest.~
+// The Vanishing of Skie Silvershield: Eldoth's opening line, reworded for the Red Sheaf
+@608 = ~I'm surprised to find someone like yourself out here. You look weary, down on your times. Why don't you all have a rest and let me treat you to some fine refreshments, perhaps... Berduskan amber wine? It's far better than what they pour here.~
+@609 = ~WARNING: could not find The Vanishing of Skie Silvershield's opening line for Eldoth, so it was not reworded for the Red Sheaf.~
 
 // Install-time warnings
 @700 = ~WARNING: could not find "%find%" in %SOURCE_FILE%. Your game version may have changed this file, so this NPC change may not work as intended.~

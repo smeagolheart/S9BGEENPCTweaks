@@ -39,7 +39,7 @@ Convenient NPCs works with The Vanishing of Skie Silvershield. Eldoth still star
 - EET: BG1 creatures, dialogues and scripts that EET renames (e.g. DORN_, VICONI_) are now found automatically
 - Script edits now give an install warning if a game patch changed the text they look for, instead of silently doing nothing
 - Kits are set through one helper
-- Compatible with The Vanishing of Skie Silvershield: Eldoth stays at the Red Sheaf and uses that mod's dialogue and quest
+- Compatible with The Vanishing of Skie Silvershield: Eldoth stays at the Red Sheaf and uses that mod's dialogue and quest, with his opening line reworded to fit the tavern
 - Removed "Add Priest of Tempus kit" (component 20) and "Make Branwen a Priest of Tempus" (component 41): EE 2.5 and later include the kit, and Branwen is already a Priest of Tempus
 
 **1.1** (2016)
