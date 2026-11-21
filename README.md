@@ -18,7 +18,7 @@ A WeiDU mod for **Baldur's Gate: Enhanced Edition** and **EET** (with partial BG
 
 On EET, install this after EET itself.
 
-If The Vanishing of Skie Silvershield is installed, Convenient NPCs leaves Eldoth alone. That mod already moves him to the Friendly Arm Inn and gives him a new first meeting. Install The Vanishing before this mod so that it is detected.
+Convenient NPCs works with The Vanishing of Skie Silvershield. Eldoth still starts at the Red Sheaf instead of the Friendly Arm Inn, and The Vanishing's dialogue and quest run there as normal. Install The Vanishing before this mod so that it is detected.
 
 ## Credits
 
@@ -39,7 +39,7 @@ If The Vanishing of Skie Silvershield is installed, Convenient NPCs leaves Eldot
 - EET: BG1 creatures, dialogues and scripts that EET renames (e.g. DORN_, VICONI_) are now found automatically
 - Script edits now give an install warning if a game patch changed the text they look for, instead of silently doing nothing
 - Kits are set through one helper
-- Convenient NPCs no longer moves Eldoth or changes his first meeting when The Vanishing of Skie Silvershield is installed
+- Compatible with The Vanishing of Skie Silvershield: Eldoth stays at the Red Sheaf and uses that mod's dialogue and quest
 - Removed "Add Priest of Tempus kit" (component 20) and "Make Branwen a Priest of Tempus" (component 41): EE 2.5 and later include the kit, and Branwen is already a Priest of Tempus
 
 **1.1** (2016)

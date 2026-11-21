@@ -1,0 +1,10 @@
+// The Vanishing of Skie Silvershield moves Eldoth to the Friendly Arm Inn the first time you
+// enter the Coast Way or the inn. Mark that move as done, so he stays at the Red Sheaf; the
+// Vanishing's own dialogue and quest still work there.
+
+IF
+	Global("L#SSMoveEldothNow","GLOBAL",0)
+THEN
+	RESPONSE #100
+		SetGlobal("L#SSMoveEldothNow","GLOBAL",3)
+END
