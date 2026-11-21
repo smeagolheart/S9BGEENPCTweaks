@@ -141,20 +141,8 @@ BEGIN @10 DESIGNATED 10
 				END
 		END
 
-// AI-generated voiceovers for the new lines in Convenient NPCs. Install this before
-// Convenient NPCs: that component then writes each line with its sound.
-BEGIN @25
-REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @600
-DESIGNATED 25
-	ACTION_BASH_FOR ~%MOD_FOLDER%/voice~ ~^S9TWV.*\.wav$~ BEGIN
-		COPY ~%BASH_FOR_FILESPEC%~ ~override~
-	END
-	ACTION_IF (MOD_IS_INSTALLED ~S9BGEENPCTweaks.tp2~ ~30~) BEGIN
-		PRINT @611
-	END
-
-
-BEGIN @30
+BEGIN @31
+SUBCOMPONENT @30
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @600  // This component requires either BG:EE or EET to be installed
 REQUIRE_PREDICATE (NOT ((MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 2) OR 
 					  (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 5)))  @606
@@ -163,240 +151,26 @@ FORBID_COMPONENT ~setup-stratagems.tp2~ 4130 @598
 FORBID_COMPONENT ~bg1npc.tp2~ 1070 @598
 DESIGNATED 30
 
-// With the voiceover component installed, write the new lines together with their sounds.
-ACTION_IF (MOD_IS_INSTALLED ~S9BGEENPCTweaks.tp2~ ~25~) BEGIN
-	OUTER_SET s9_voice = 1
-	LOAD_TRA ~%MOD_FOLDER%/translations/%LANGUAGE%/voice.tra~
-END ELSE BEGIN
 	OUTER_SET s9_voice = 0
-END
+	INCLUDE ~%MOD_FOLDER%/lib/convenient_npcs.tpa~
 
-ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN	
-	/* Alora to start in Gullykin near the door to the winery. */
-	// code borrowed from BG1NPC authored and coded by tons of dedicated people from all walks of life 
-    COPY_EXISTING ~baldur.gam~ ~override~
-      READ_LONG 0x30 non_joined_npcs_off
-      READ_LONG 0x34 non_joined_npcs_count
-      FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
-        SET cre_offset = non_joined_npcs_off + i * 0x160
-        READ_ASCII 0xc + cre_offset ~CREName~
-        PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_ALORA%~) BEGIN
-			WRITE_ASCIIE cre_offset + 0x18 ~%Gullykin%~ #8
-			WRITE_SHORT cre_offset + 0x20 553
-			WRITE_SHORT cre_offset + 0x22 506
-        END
-      END
-      BUT_ONLY_IF_IT_CHANGES
-	  
-	ACTION_IF (s9_voice = 1) BEGIN
-		COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/x#aloramoves.d~
-			USING ~%MOD_FOLDER%/translations/%LANGUAGE%/X#ALORAN.TRA~ ~%MOD_FOLDER%/translations/%LANGUAGE%/X#ALORAN_voice.tra~
-	END ELSE BEGIN
-		COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/x#aloramoves.d~
-			USING ~%MOD_FOLDER%/translations/%LANGUAGE%/X#ALORAN.TRA~
+BEGIN @32
+SUBCOMPONENT @30
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @600  // This component requires either BG:EE or EET to be installed
+REQUIRE_PREDICATE (NOT ((MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 2) OR 
+					  (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 5)))  @606
+FORBID_COMPONENT ~setup-scs.tp2~ 3070 @598
+FORBID_COMPONENT ~setup-stratagems.tp2~ 4130 @598	
+FORBID_COMPONENT ~bg1npc.tp2~ 1070 @598
+DESIGNATED 31
+
+	// Copy the voiceover files and write the new lines together with their sounds.
+	ACTION_BASH_FOR ~%MOD_FOLDER%/voice~ ~^S9TWV.*\.wav$~ BEGIN
+		COPY ~%BASH_FOR_FILESPEC%~ ~override~
 	END
-
-    COPY_EXISTING ~%HallofWonders_BCS%.bcs~ ~override~
-      DECOMPILE_AND_PATCH BEGIN
-		LPF s9_replace STR_VAR find = ~!InParty("alora")~ repl = ~!InParty("alora") Global("X#AloraDontBeDifficult","GLOBAL",1)~ END
-      END
-      BUT_ONLY_IF_IT_CHANGES	  
-
-/* Coran to Cloakwood Lodge near the bridge */
-	COPY_EXISTING ~baldur.gam~ ~override~
-	READ_LONG 0x30 non_joined_npcs_off
-	READ_LONG 0x34 non_joined_npcs_count
-	FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
-		SET cre_offset = non_joined_npcs_off + i * 0x160
-		READ_ASCII 0xc + cre_offset ~CREName~
-		PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_CORAN%~) BEGIN
-			WRITE_ASCIIE cre_offset + 0x18 ~%CloakwoodLodge%~ #8
-			WRITE_SHORT cre_offset + 0x20 1857
-			WRITE_SHORT cre_offset + 0x22 949
-			END
-		END
-		BUT_ONLY_IF_IT_CHANGES
-	//extend Coran's quest timer
-	EXTEND_BOTTOM ~%CloakwoodNest%.bcs~ ~%MOD_FOLDER%/baf/corantimer.baf~
-	COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/coran.d~  
-
-/* Dorn BGEE: Nashkel Mines next to the Cabin */
-	EXTEND_BOTTOM ~%NashkelMines%.bcs~ ~%MOD_FOLDER%/baf/AREA5400.baf~ EVALUATE_BUFFER
-	COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/dorn.d~
-
-	COPY_EXISTING ~%FriendlyArmInn_L1%.bcs~ ~override~
-	DECOMPILE_AND_PATCH BEGIN
-		LPF s9_replace STR_VAR find = ~Global("DORNExists","GLOBAL",0)~ repl = ~False()~ END
-	END BUT_ONLY
-
-/* Dorn SOD: Three Old Kegs and Flaming Fist Camp */	
-	ACTION_IF FILE_EXISTS_IN_GAME ~DORN7.cre~ THEN BEGIN
-		EXTEND_BOTTOM ~BD0106.bcs~ ~%MOD_FOLDER%/lib/soddorn.baf~
-		COPY_EXISTING ~BD2000.bcs~ ~override~
-		DECOMPILE_AND_PATCH BEGIN
-			LPF s9_replace STR_VAR find = ~Global("bd_dorn_spawn","bd2000",0)~ repl = ~False()~ END
-		END BUT_ONLY
-		
-		COPY_EXISTING ~BD3000.bcs~ ~override~
-		DECOMPILE_AND_PATCH BEGIN
-			LPF s9_replace STR_VAR find = ~GlobalGT("bd_dorn_join","global",0)~ repl = ~True()~ END
-		END BUT_ONLY
-	END	
-	  
-/* Eldoth to Beregost Red Sheaf near Bartender */
-	// The Vanishing of Skie Silvershield moves Eldoth to the Friendly Arm Inn. When it is installed,
-	// stop that move so he stays at the Red Sheaf; its dialogue and quest still run there (chapters 1-4).
-	ACTION_IF (MOD_IS_INSTALLED ~TheVanishingOfSkieSilvershield.tp2~ ~0~ OR FILE_EXISTS_IN_GAME ~l#sss1.are~) BEGIN
-		PRINT @607
-		EXTEND_TOP ~BALDUR.bcs~ ~%MOD_FOLDER%/baf/eldoth_vanishing.baf~
-		// The Vanishing's opening line assumes he is outside the Friendly Arm Inn ("better than what
-		// they serve inside"). Point that state at a version that fits the Red Sheaf.
-		COPY_EXISTING ~%s9dlg_ELDOTH%.dlg~ ~override~
-			READ_LONG 0x08 num_states
-			READ_LONG 0x0c states_off
-			READ_LONG 0x18 strig_off
-			READ_LONG 0x1c num_strig
-			SET found = 0
-			FOR (i = 0; i < num_states; ++i) BEGIN
-				READ_LONG (states_off + i * 16 + 12) trig
-				PATCH_IF (trig >= 0 AND trig < num_strig) BEGIN
-					READ_LONG (strig_off + trig * 8) t_off
-					READ_LONG (strig_off + trig * 8 + 4) t_len
-					READ_ASCII t_off trig_text (t_len)
-					PATCH_IF (INDEX (CASE_INSENSITIVE EXACT_MATCH ~L#SSQUEST~ ~%trig_text%~) >= 0 AND INDEX (CASE_INSENSITIVE EXACT_MATCH ~NumTimesTalkedTo(0)~ ~%trig_text%~) >= 0) BEGIN
-						WRITE_LONG (states_off + i * 16) RESOLVE_STR_REF (@608)
-						SET found = 1
-					END
-				END
-			END
-			PATCH_IF (found = 0) BEGIN
-				PATCH_WARN @609
-			END
-		BUT_ONLY
-	END
-	COPY_EXISTING ~baldur.gam~ ~override~
-	READ_LONG 0x30 non_joined_npcs_off
-	READ_LONG 0x34 non_joined_npcs_count
-	FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
-		SET cre_offset = non_joined_npcs_off + i * 0x160
-		READ_ASCII 0xc + cre_offset ~CREName~
-		PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_ELDOTH%~) BEGIN
-			WRITE_ASCIIE cre_offset + 0x18 ~%Beregost_RedSheaf_L1%~ #8
-			WRITE_SHORT cre_offset + 0x20 772
-			WRITE_SHORT cre_offset + 0x22 300
-			END
-		END
-		BUT_ONLY_IF_IT_CHANGES
-	COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/eldoth.d~
-	
-/* Quayle to start at the Nashkel Carnival near Great Gazib's show. */
-	COPY_EXISTING ~baldur.gam~ ~override~
-	READ_LONG 0x30 non_joined_npcs_off
-	READ_LONG 0x34 non_joined_npcs_count
-	FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
-		SET cre_offset = non_joined_npcs_off + i * 0x160
-		READ_ASCII 0xc + cre_offset ~CREName~
-		PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_QUAYLE%~) BEGIN
-			WRITE_ASCIIE cre_offset + 0x18 ~%NashkelCarnival%~ #8
-			WRITE_SHORT cre_offset + 0x20 1133
-			WRITE_SHORT cre_offset + 0x22 2940
-			END
-		END
-	BUT_ONLY_IF_IT_CHANGES
-
-/* Safana to the Jovial Juggler. */
-	COPY_EXISTING ~baldur.gam~ ~override~
-	READ_LONG 0x30 non_joined_npcs_off
-	READ_LONG 0x34 non_joined_npcs_count
-	FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
-		SET cre_offset = non_joined_npcs_off + i * 0x160
-		READ_ASCII 0xc + cre_offset ~CREName~
-		PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_SAFANA%~) BEGIN
-			WRITE_ASCIIE cre_offset + 0x18 ~%Beregost_JovialJuggler_L1%~ #8
-			WRITE_SHORT cre_offset + 0x20 135
-			WRITE_SHORT cre_offset + 0x22 966
-			END
-		END
-	BUT_ONLY_IF_IT_CHANGES	
-	COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/safana.d~
-
-/* Shar-Teel to South Beregost Road */
-	COPY_EXISTING ~baldur.gam~ ~override~
-	READ_LONG 0x30 non_joined_npcs_off
-	READ_LONG 0x34 non_joined_npcs_count
-	FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
-		SET cre_offset = non_joined_npcs_off + i * 0x160
-		READ_ASCII 0xc + cre_offset ~CREName~
-		PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_SHARTE%~) BEGIN
-			WRITE_ASCIIE cre_offset + 0x18 ~%SouthBeregostRoad%~ #8
-			WRITE_SHORT cre_offset + 0x20 4160
-			WRITE_SHORT cre_offset + 0x22 735
-			END
-		END
-	BUT_ONLY_IF_IT_CHANGES	
-	
-	EXTEND_TOP ~%SouthBeregostRoad%.bcs~ ~%MOD_FOLDER%/baf/sharteel_ee.baf~ EVALUATE_BUFFER
-	COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/sharte.d~
-	
-	COPY_EXISTING ~%s9bcs_SHARTEL2%.bcs~ ~override~	
-	DECOMPILE_AND_PATCH BEGIN
-		LPF s9_replace STR_VAR find = EVAL ~%MutaminsGarden%~ repl = EVAL ~%SouthBeregostRoad%~ END
-		END
-	BUT_ONLY_IF_IT_CHANGES	
-	
-	COPY_EXISTING ~%MutaminsGarden%.bcs~ ~override~
-    DECOMPILE_AND_PATCH BEGIN
-		// kill these highly unlikely triggers
-		LPF s9_replace STR_VAR find = ~Global("SHARTEELFIGHT","GLOBAL",2)~ repl = ~Global("S9SharteelDontBeDifficult","GLOBAL",1)~ END
-		LPF s9_replace STR_VAR find = ~Global("SHARTEELFIGHT","GLOBAL",1)~ repl = ~Global("S9SharteelDontBeDifficult","GLOBAL",1)~ END
-		END
-	BUT_ONLY_IF_IT_CHANGES
-	
-/* Tiax to Beregost between Feldepost's Inn and Kaigan's Shop  */
-	COPY_EXISTING ~baldur.gam~ ~override~
-	READ_LONG 0x30 non_joined_npcs_off
-	READ_LONG 0x34 non_joined_npcs_count
-	FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
-		SET cre_offset = non_joined_npcs_off + i * 0x160
-		READ_ASCII 0xc + cre_offset ~CREName~
-		PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_TIAX%~) BEGIN
-			WRITE_ASCIIE cre_offset + 0x18 ~%Beregost%~ #8
-			WRITE_SHORT cre_offset + 0x20 1717
-			WRITE_SHORT cre_offset + 0x22 2433
-			END
-		END
-		BUT_ONLY_IF_IT_CHANGES
-
-/* Viconia to behind the Temple  */
-	COPY_EXISTING ~baldur.gam~ ~override~
-	READ_LONG 0x30 non_joined_npcs_off
-	READ_LONG 0x34 non_joined_npcs_count
-	FOR (i = 0; i < non_joined_npcs_count; i+=1) BEGIN
-		SET cre_offset = non_joined_npcs_off + i * 0x160
-		READ_ASCII 0xc + cre_offset ~CREName~
-		PATCH_IF (~%CREName%~ STR_EQ ~%s9cre_VICONI%~) BEGIN
-			WRITE_ASCIIE cre_offset + 0x18 ~%Temple%~ #8
-			WRITE_SHORT cre_offset + 0x20 2337
-			WRITE_SHORT cre_offset + 0x22 868
-			END
-		END
-		BUT_ONLY_IF_IT_CHANGES
-	COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/dialogue/viconia.d~
-	
-/* Baeloth spawns near the entrance of High Hedge */
-	COPY_EXISTING ~%Larswood%.bcs~ ~override~
-	DECOMPILE_AND_PATCH BEGIN
-		LPF s9_replace STR_VAR find = ~Global("BAINVI","GLOBAL",0)~ repl = ~False()~ END
-	END BUT_ONLY
-
-	EXTEND_TOP ~%HighHedge%.bcs~ ~%MOD_FOLDER%/baf/s9-bae.baf~
-	LAF S9MoveBaeloth END
-END	
-	// Passivize Hexxat, Neera & Rasaad	
-	// code from Argent77 used with permission
-	LAF A7PassiveHexxat END
-	LAF A7PassiveNeera END
-	LAF A7PassiveRasaad END
+	LOAD_TRA ~%MOD_FOLDER%/translations/%LANGUAGE%/voice.tra~
+	OUTER_SET s9_voice = 1
+	INCLUDE ~%MOD_FOLDER%/lib/convenient_npcs.tpa~
 
 // Adjust NPC Classes
 // Make Dynaheir a Sorcerer

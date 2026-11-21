@@ -7,8 +7,7 @@ A WeiDU mod for **Baldur's Gate: Enhanced Edition** and **EET** (with partial BG
 | # | Component | Games |
 |---|-----------|-------|
 | 10 | NPC Portraits | BGEE, BG2EE, EET |
-| 25 | AI Voiceovers for the new lines in Convenient NPCs (Alora, Coran, Dorn, Eldoth, Rasaad). Install before component 30. | BGEE, BG2EE, EET |
-| 30 | Convenient NPCs (moves Alora, Coran, Dorn, Eldoth, Quayle, Safana, Shar-Teel, Tiax, Viconia and Baeloth closer to the main path; passive Hexxat, Neera and Rasaad introductions; on EET, Neera's BG2 introduction is left unchanged) | BGEE, EET |
+| 30 / 31 | Convenient NPCs, without or with AI voiceovers for its new lines (moves Alora, Coran, Dorn, Eldoth, Quayle, Safana, Shar-Teel, Tiax, Viconia and Baeloth closer to the main path; passive Hexxat, Neera and Rasaad introductions; on EET, Neera's BG2 introduction is left unchanged) | BGEE, EET |
 | 400–450 | Adjust NPC Classes: Dynaheir Sorcerer, Eldoth Jester, Faldorn Avenger, Garrick Skald, Kagain Dwarven Defender, Khalid Fighter/Mage, Kivan Archer, Safana Swashbuckler, Shar-Teel Berserker *or* Barbarian, Skie Shadowdancer | BGEE, EET |
 | 60 | Dual-class-friendly stats for Branwen, Dynaheir, Safana and Xzar | BGEE, EET |
 
@@ -40,7 +39,7 @@ Convenient NPCs works with The Vanishing of Skie Silvershield. Eldoth still star
 - EET: BG1 creatures, dialogues and scripts that EET renames (e.g. DORN_, VICONI_) are now found automatically
 - Script edits now give an install warning if a game patch changed the text they look for, instead of silently doing nothing
 - Kits are set through one helper
-- New optional component: AI Voiceovers for the new dialogue
+- Convenient NPCs can now be installed with AI voiceovers for its new lines (Alora, Coran, Dorn, Eldoth, Rasaad)
 - Compatible with The Vanishing of Skie Silvershield: Eldoth stays at the Red Sheaf and uses that mod's dialogue and quest, with his opening line reworded to fit the tavern
 - Removed "Add Priest of Tempus kit" (component 20) and "Make Branwen a Priest of Tempus" (component 41): EE 2.5 and later include the kit, and Branwen is already a Priest of Tempus
 
